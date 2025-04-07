@@ -1,3 +1,5 @@
+import burgermenu from './assets/images/icon _hamburger menu.svg';
+
 function Nav() {
     return <nav>
                 <ul>
@@ -8,6 +10,10 @@ function Nav() {
                     <li><a>Order Online</a></li>
                     <li><a>Login</a></li>
                 </ul>
+
+                <div className="burgermenu">
+                    <img src={burgermenu}></img>
+                </div>
             </nav>;
   }
   
