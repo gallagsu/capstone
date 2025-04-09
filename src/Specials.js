@@ -1,25 +1,11 @@
-import heroimage from './assets/images/restauranfood.jpg';
 import greek from './assets/images/greek salad.jpg';
 import bruschetta from './assets/images/bruchetta.svg';
 import lemon from './assets/images/lemon dessert.jpg';
 
-function Main() {
-    return <main>
-
-      <section className="hero-row">
-        <div className="hero1">
-          <h1>Little Lemon</h1>
-          <h2>Chicago</h2>
-          <p>We are a family owned Mediterranean restaurant, focussed on traditional recipes served with a modern twist.</p>
-          <button>Reserve a Table</button>
-        </div>
-        
-        <div className="hero2">
-          <img className="heroimage" src={heroimage} />
-        </div>
-      </section>
-      
-      <section className="specials-header">
+function Specials() {
+    return (
+        <>
+        <section className="specials-header">
         <div className="specials1">
          <h1 className="specialtitle">This week's specials</h1>
         </div>
@@ -57,7 +43,8 @@ function Main() {
             </div>
           </div>
       </section>
-    </main>;
+      </>
+    );
   }
   
-  export default Main;
+  export default Specials;
