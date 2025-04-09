@@ -74,7 +74,7 @@ h1 {
   grid-gap: 20px;
 }
 
-.hero-row, .specials-row, .testimonials-row, .info-row {
+.specials-row, .testimonials-row {
   grid-template-columns: 1fr;
 }
 
@@ -111,7 +111,6 @@ h1 {
 }
 
 .hero2 {
-  grid-column: 2;       /* Ensures it's in column 2 */
   justify-self: stretch;    /* 🔑 Force the container to fill the column */
   align-self: start;    /* Align to top of cell (match text) */
   position: relative;
@@ -135,14 +134,13 @@ button {
   padding: 16px 24px;
   font-size: 20px;
   font-weight: 700;
-  margin-bottom: 40px;
 }
 
 .specials-header {
   display: grid;
   grid-template-columns: 3fr 1fr;
   grid-gap: 20px;
-  margin: 80px 40px 0 40px;
+  margin: 80px 40px 40px 40px;
 }
 
 .specials2 {
@@ -192,13 +190,13 @@ button {
 }
 
 .testimonials-header {
-  margin-bottom: 40px;
 }
 
 .testimonials {
+  margin-top: 40px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
+  grid-gap: 40px;
 }
 
 .testimonial {
@@ -246,11 +244,13 @@ button {
 
 .info2 {
   position: relative;
+  min-height: 320px;
+  display: grid;
 }
 
 .info2 img {
-  width: 250px;
-  height: auto;
+  height: 220px;
+  width: auto;
   object-fit: cover;
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
@@ -278,7 +278,7 @@ footer {
 }
 
 .footercolumn h3 {
-  font-weight: 400;
+  font-weight: 600;
   margin-bottom: 20px;
 }
 
@@ -301,11 +301,42 @@ footer {
     justify-items: start;
   }
 
+  .hero-row, .specials-header, .specials, .testimonials, .info-row {
+    grid-template-columns: 1fr;
+    padding: 0 20px;
+  }
+
+  header {
+    padding: 20px 20px 0 20px;
+  }
+
   h1 {
-    font-size: 24px;
+    font-size: 30px;
   }
 
   button {
     font-size: 16px;
+  }
+
+  .info2 {
+    justify-items: center;
+  }
+
+  .info2 img {
+    position:unset;
+    margin-bottom: 20px;
+  }
+
+  .hero1 {
+    padding-top: 40px;
+  }
+
+  .testimonials-row, footer {
+    margin-top: 40px;
+  }
+
+  footer {
+    grid-template-columns: 1fr;
+    padding: 40px 20px;
   }
 }
