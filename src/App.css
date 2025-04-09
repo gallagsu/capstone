@@ -62,11 +62,20 @@ nav .burgermenu {
   display: none;
 }
 
-main {
+h1 {
+  font-family: Marzaki;
+  font-size: 36px;
+}
+
+.homemain {
   grid-area: main;
   display: grid;
-  grid-template-rows: repeat(3, auto);
+  grid-template-rows: repeat(4, auto);
   grid-gap: 20px;
+}
+
+.hero-row, .specials-row, .testimonials-row, .info-row {
+  grid-template-columns: 1fr;
 }
 
 .hero-row {
@@ -85,6 +94,7 @@ main {
 }
 
 .hero1 h1 {
+  font-size: 48px;
   color: var(--yellow);
 }
 
@@ -135,11 +145,6 @@ button {
   margin: 80px 40px 0 40px;
 }
 
-h1 {
-  font-family: Marzaki;
-  font-size: 48px;
-}
-
 .specials2 {
   display: grid;
   justify-items: end;
@@ -181,6 +186,89 @@ h1 {
   font-weight: 600;
 }
 
+.testimonials-row {
+  background-color: var(--grey);
+  padding: 40px;
+}
+
+.testimonials-header {
+  margin-bottom: 40px;
+}
+
+.testimonials {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+
+.testimonial {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto auto 1fr;
+  grid-gap: 20px;
+}
+
+.testimonialimage {
+  grid-row: span 2;
+  grid-column: span 1;
+  width: 100%;            /* Full width of the grid column */
+  object-fit: cover;      /* Crop excess without distortion */
+}
+
+.tname {
+
+}
+
+.tstars {
+
+}
+
+.treview {
+  grid-column: span 2;
+}
+
+.info-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+  padding: 0 40px;
+  margin-top: 40px;
+  overflow: hidden;
+  padding-bottom: 40px;
+}
+
+.info1 {
+}
+
+.info1 p {
+  margin: 30px 0;
+}
+
+.info2 {
+  position: relative;
+}
+
+.info2 img {
+  width: 250px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  position: absolute;
+}
+
+.infoimage1 {
+  top: 0px;
+  right: 40px;
+  z-index: 1;
+}
+
+.infoimage2 {
+  top: 100px;
+  right: 150px;
+  z-index: 2;
+}
+
 footer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -209,16 +297,12 @@ footer {
     justify-items: end;
   }
 
-  .hero-row, .specials-header, .specials, footer {
-    grid-template-columns: 1fr;
-  }
-
   .specials2 {
     justify-items: start;
   }
 
   h1 {
-    font-size: 36px;
+    font-size: 24px;
   }
 
   button {

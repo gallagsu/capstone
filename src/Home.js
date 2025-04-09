@@ -4,14 +4,14 @@ import Testimonials from "./Testimonials";
 import RestaurantInfo from "./RestaurantInfo";
 
 function Home() {
-    return (
-      <main>
-      <Hero/>
-      <Specials/>
-      <Testimonials/>
-      <RestaurantInfo/>
-      </main>
-    );
-  }
-  
-  export default Home;
+  return (
+    <main class="homemain">
+      <Hero />
+      <Specials />
+      <Testimonials />
+      <RestaurantInfo />
+    </main>
+  );
+}
+
+export default Home;
