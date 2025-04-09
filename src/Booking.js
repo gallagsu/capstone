@@ -1,6 +1,6 @@
 function Booking() {
     return (
-      Booking
+      <>Booking</>
     );
   }
   
