@@ -9,7 +9,6 @@ import Menu from "./Menu";
 import Booking from "./Booking";
 import Order from "./Order";
 import Login from "./Login";
-import Login from "./Login";
 import { initializeTimes, updateTimes } from './AvailableTimes';
 
 function App() {
