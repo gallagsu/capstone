@@ -1,5 +1,5 @@
-import aboutimage2 from './assets/images/Mario and Adrian A.jpg';
-import aboutimage1 from './assets/images/restaurant.jpg';
+import aboutimage1 from './assets/images/Mario and Adrian A.jpg';
+import aboutimage2 from './assets/images/restaurant.jpg';
 
 function RestaurantInfo() {
     return (
@@ -10,8 +10,8 @@ function RestaurantInfo() {
             </div>
 
             <div className="info2">
-                <img className="infoimage1" src={aboutimage1} />
-                <img className="infoimage2" src={aboutimage2} />
+                <img className="infoimage1" src={aboutimage1} alt="Chefs at work" />
+                <img className="infoimage2" src={aboutimage2} alt="Restaurant room" />
             </div>
         </section>
     );

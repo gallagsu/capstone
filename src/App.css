@@ -53,9 +53,18 @@ nav ul {
 }
 
 nav ul li {
-  font-size: 14px;
+  font-size: 16px;
   text-transform: uppercase;
   font-weight: 600;
+}
+
+nav ul li a {
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  text-decoration: solid;
+  color: var(--peach);
 }
 
 nav .burgermenu {
@@ -93,16 +102,16 @@ h1 {
   padding-top: 80px;
 }
 
-.hero1 h1 {
+.hero1 h1, .bookingrow1 h1 {
   font-size: 48px;
   color: var(--yellow);
 }
 
-.hero1 h2, .hero1 p{
+.hero1 h2, .hero1 p, .bookingrow1 p{
   color: white;
 }
 
-.hero1 p {
+.hero1 p, .bookingrow1 p {
   margin-top: 30px;
 }
 
@@ -126,7 +135,7 @@ h1 {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
-button {
+button, input[type="submit"] {
   background-color: var(--yellow);
   color: var(--green);
   border-radius: 12px;
@@ -286,6 +295,44 @@ footer {
   list-style: none;
 }
 
+.bookingmain {
+  grid-area: main;
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  grid-gap: 20px;
+}
+
+.bookingrow1 {
+  background-color: var(--green);
+  padding: 40px;
+}
+
+.bookingrow2 {
+  padding: 10px 40px;
+}
+
+.bookingform {
+   display: grid;
+   max-width: 200px;
+   gap: 5px;
+}
+
+label {
+  font-size: 18px;
+  margin-left: 8px;
+  font-weight: 600;
+}
+input, select {
+  border-radius: 8px;
+  border-width: 2px;
+  padding: 9px;
+  margin-bottom: 20px;
+}
+
+.formh1 {
+  margin-bottom: 30px;
+}
+
 @media (max-width: 768px) {
   
   nav ul {
@@ -312,10 +359,6 @@ footer {
 
   h1 {
     font-size: 30px;
-  }
-
-  button {
-    font-size: 16px;
   }
 
   .info2 {
