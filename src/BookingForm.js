@@ -1,37 +1,60 @@
 import { fetchAPI, submitAPI } from './api';
 import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
 
 function BookingForm({ formData, setFormData, availableTimes, dispatch }) {
 
-    //handles change in any fiels apart from Date by updating formData object
+    //set up useState for error information
+    const [errors, setErrors] = useState({});
+
+    //handles change in any fields apart from Date by updating formData object
     function handleChange(e) {
         const { name, value } = e.target;
+
+        if (name === 'guests') {
+            if (value > 10 || value < 1) {
+                setErrors(prev => ({ ...prev, guests: 'Maximum 10 guests allowed' }));
+            } else {
+                setErrors(prev => ({ ...prev, guests: '' }));
+            }
+        }
+
         setFormData(prev => ({ ...prev, [name]: value }));
     }
 
     //handles any changes to the Date field 1. updates formData object with the Date 2. updates the availableTimes
     function handleDateChange(e) {
-        const selectedDate = e.target.value;
-        setFormData(prev => ({ ...prev, date: selectedDate }));
+        const selectedDate = new Date(e.target.value);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
 
-        //gets all the times for that date from fetchAPI
-        const rawTimes = fetchAPI(new Date(selectedDate));
+        if (selectedDate < today) {
+            setErrors(prev => ({ ...prev, date: 'Please select today or a future date.' }));
+        } else {
+            setErrors(prev => ({ ...prev, date: '' }));
 
-        //gets a list of current bookings for all dates from local storage
-        const existingBookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            setFormData(prev => ({ ...prev, date: e.target.value }));
 
-        //get a list of bookedTimes for the selectedDate from the local storage
-        const bookedTimes = existingBookings
-            .filter((b) => b.date === selectedDate)
-            .map((b) => b.time);
+            //gets all the times for that date from fetchAPI
+            const rawTimes = fetchAPI(selectedDate);
 
-        //filters out the bookedTimes from the full list of times for the selectedDate
-        const filteredTimes = rawTimes.filter((time) => !bookedTimes.includes(time));
+            //gets a list of current bookings for all dates from local storage
+            const existingBookings = JSON.parse(localStorage.getItem('bookings')) || [];
 
-        //calls dispatch
-        //calls update_times with current availableTimes and list of the new times that are available for the date
-        //availableTimes will be updated with the filteredTimes list
-        dispatch({ type: 'update_times', times: filteredTimes });
+            //get a list of bookedTimes for the selectedDate from the local storage
+            const bookedTimes = existingBookings
+                .filter((b) => b.date === e.target.value)
+                .map((b) => b.time);
+
+            //filters out the bookedTimes from the full list of times for the selectedDate
+            const filteredTimes = rawTimes.filter((time) => !bookedTimes.includes(time));
+
+            //calls dispatch
+            //calls update_times with current availableTimes and list of the new times that are available for the date
+            //availableTimes will be updated with the filteredTimes list
+            dispatch({ type: 'update_times', times: filteredTimes });
+
+        }
     }
 
     //adds each submitted formData object into the localStorage 'bookings' item
@@ -64,7 +87,7 @@ function BookingForm({ formData, setFormData, availableTimes, dispatch }) {
         const success = submitAPI(formData);
 
         if (success) {
-            console.log('✅ Reservation submitted!',formData);
+            console.log('✅ Reservation submitted!', formData);
             //save the booking in local storage
             saveBooking(formData);
             navigate("/bookingconfirmed");
@@ -73,16 +96,31 @@ function BookingForm({ formData, setFormData, availableTimes, dispatch }) {
         }
     };
 
+    //check form data is valid before submitting
+    function isFormValid(data) {
+        return (
+            data.date &&
+            data.time &&
+            data.guests >= 1 &&
+            data.guests <= 10
+        );
+    }
+
     return (
         <>
             <h1 className="formh1">Book Now</h1>
             <form className="bookingform" onSubmit={handleSubmit}>
 
                 <label htmlFor="res-date">Date</label>
-                <input type="date" id="res-date" name="date" value={formData.date} onChange={handleDateChange} aria-required="true" />
+                {errors.date && (
+                    <span className="error">
+                        {errors.date}
+                    </span>
+                )}
+                <input type="date" id="res-date" name="date" value={formData.date} onChange={handleDateChange} aria-required="true" required className="openField" />
 
                 <label htmlFor="res-time">Time</label>
-                <select id="res-time" name="time" value={formData.time} onChange={handleChange} aria-required="true" >
+                <select id="res-time" name="time" value={formData.time} onChange={handleChange} aria-required="true" required className="openField" >
                     <option value="">-- Select a time --</option>
                     {availableTimes.map((time) => (
                         <option key={time} value={time}>
@@ -92,16 +130,27 @@ function BookingForm({ formData, setFormData, availableTimes, dispatch }) {
                 </select>
 
                 <label htmlFor="guests">Number of Guests</label>
-                <input type="number" placeholder="2" min="1" max="10" id="guests" name="guests" value={formData.guests} onChange={handleChange} aria-required="true" />
+                {errors.guests && (
+                    <span className="error">
+                        {errors.guests}
+                    </span>
+                )}
+                <input type="number" placeholder="2" min="1" max="10" id="guests" name="guests" value={formData.guests} onChange={handleChange} aria-required="true" required className="openField" />
 
                 <label htmlFor="occasion">Occasion</label>
-                <select id="occasion" name="occasion" value={formData.occasion} onChange={handleChange} >
+                <select id="occasion" name="occasion" value={formData.occasion} onChange={handleChange} className="openField" >
                     <option>None</option>
                     <option>Birthday</option>
                     <option>Anniversary</option>
                 </select>
 
-                <input type="submit" value="Make Your reservation" aria-label="Submit reservation form" />
+                <input
+                    type="submit"
+                    value="Make Your reservation"
+                    aria-label="Submit reservation form"
+                    disabled={!isFormValid(formData)}
+                    className="openField"
+                />
             </form>
         </>
     );

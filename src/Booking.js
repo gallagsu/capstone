@@ -14,7 +14,7 @@ function Booking({ availableTimes, dispatch }) {
     <main class="bookingmain">
       <div className="bookingrow1">
         <h1>Book a Table at Little Lemon</h1>
-        <p>We can't wait to see you at Little Lemon restaurant. To make a booking...</p>
+        <p>We can't wait to see you at Little Lemon restaurant.</p>
       </div>
       <div className="bookingrow2">
         <BookingForm

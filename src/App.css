@@ -144,6 +144,23 @@ button, input[type="submit"] {
   padding: 16px 24px;
   font-size: 20px;
   font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+button:hover:not(:disabled),
+input[type="submit"]:hover:not(:disabled) {
+  background-color: #ffcc00; /* or a darker shade of var(--yellow) */
+}
+
+button:disabled,
+input[type="submit"]:disabled,
+button.disabled,
+input[type="submit"].disabled {
+  background-color: #ddd;
+  color: #999;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .specials-header {
@@ -323,11 +340,24 @@ label {
   margin-left: 8px;
   font-weight: 600;
 }
+
 input, select {
   border-radius: 8px;
   border-width: 2px;
   padding: 9px;
   margin-bottom: 20px;
+}
+
+.openField:hover {
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  font-weight: 600;
+  background-color: rgb(249, 230, 233);
+  padding: 5px 10px;
 }
 
 .formh1 {
