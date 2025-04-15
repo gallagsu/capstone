@@ -1,14 +1,18 @@
+import { fetchAPI } from './api';
+
 export const initializeTimes = () => {
-    return ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00']
-  };
-  
-  export const updateTimes = ((state, action) => {
-    //For now return the same list regardless of date
-    //It will change depending on action.date later
-    const selectedDate = action.date;
-    console.log("Date selected:", selectedDate);
-    console.log("State:", state);
-  
-    //later we'll return a specific list of times, so there won't be duplication
-    return state;
-  });
+  const today = new Date(); //default of today's date
+  return fetchAPI(today); //calls fetchAPI to get times available for today
+};
+
+//action is an object with {type: x, times: x}
+//state is the current value of availableTimes
+//whatever is returned is set as availableTimes
+export const updateTimes = ((state, action) => {
+  if (action.type === 'update_times') {
+    //if we're updating times, return the new times that were passed in
+    return action.times;
+  }
+  //if we're not updating times, return the current availableTimes value instead
+  return state;
+});

@@ -1,22 +1,22 @@
-import { initializeTimes, updateTimes } from './AvailableTimes'; // adjust if App is in a subfolder
+import { initializeTimes, updateTimes } from './AvailableTimes';
+import * as api from './api';
 
-describe('initializeTimes', () => {
+describe('initializeTimes returns times from fetchAPI', () => {
   test('returns the correct list of times', () => {
-    expect(initializeTimes()).toEqual([
-      '17:00',
-      '18:00',
-      '19:00',
-      '20:00',
-      '21:00',
-      '22:00',
-    ]);
+    jest.spyOn(api, 'fetchAPI').mockReturnValue(['18:00', '19:30']);
+
+    const times = initializeTimes();
+    expect(times).toEqual(['18:00', '19:30']);
+
+    // Clean up mock after test
+    api.fetchAPI.mockRestore();
   });
 });
 
 describe('updateTimes', () => {
-  test('returns the same times regardless of date (for now)', () => {
-    const fakeAction = { type: 'update_times', date: '2025-04-20' };
-    const fakeState = ['17:00', '18:00'];
+  test('updates the list of times', () => {
+    const fakeAction = { type: 'update_times', times: ['17:00', '18:00'] };
+    const fakeState = ['17:00', '19:00'];
     const result = updateTimes(fakeState, fakeAction);
 
     expect(result).toEqual([

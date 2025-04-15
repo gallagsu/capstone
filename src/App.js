@@ -9,13 +9,14 @@ import Menu from "./Menu";
 import Booking from "./Booking";
 import Order from "./Order";
 import Login from "./Login";
+import ConfirmedBooking from "./ConfirmedBooking";
 import { initializeTimes, updateTimes } from './AvailableTimes';
 
 function App() {
 
-  //updateTimes: reducer function (handles updates)
+  //updateTimes: reducer function (handles updates) 
   //[]: placeholder initial state
-  //initializeTimes: function to generate initial state
+  //initializeTimes: function to generate initial state, called once on first render.
   const [availableTimes, dispatch] = useReducer(updateTimes, [], initializeTimes);
 
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/booking" element={<Booking availableTimes={availableTimes} dispatch={dispatch} />}></Route>
         <Route path="/order" element={<Order />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/bookingconfirmed" element={<ConfirmedBooking />}></Route>
       </Routes>
 
       <Footer />

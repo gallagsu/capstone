@@ -28,6 +28,7 @@
                         "main"
                         "footer";
   grid-gap: 20px;
+  min-height: 100vh;
 }
 
 header {
