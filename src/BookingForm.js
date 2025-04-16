@@ -19,6 +19,15 @@ function BookingForm({ formData, setFormData, availableTimes, dispatch }) {
             }
         }
 
+        if (name === 'time') {
+            console.log("TIME OPTION is:", value);
+            if (value == '' ) {
+                setErrors(prev => ({ ...prev, time: 'Please select a time for your booking' }));
+            } else {
+                setErrors(prev => ({ ...prev, time: '' }));
+            }
+        }
+
         setFormData(prev => ({ ...prev, [name]: value }));
     }
 
@@ -120,6 +129,11 @@ function BookingForm({ formData, setFormData, availableTimes, dispatch }) {
                 <input type="date" id="res-date" name="date" value={formData.date} onChange={handleDateChange} aria-required="true" required className="openField" />
 
                 <label htmlFor="res-time">Time</label>
+                {errors.time && (
+                    <span className="error">
+                        {errors.time}
+                    </span>
+                )}
                 <select id="res-time" name="time" value={formData.time} onChange={handleChange} aria-required="true" required className="openField" >
                     <option value="">-- Select a time --</option>
                     {availableTimes.map((time) => (
