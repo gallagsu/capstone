@@ -6,7 +6,7 @@ function RestaurantInfo() {
         <section className="info-row">
             <div className="info1">
                 <h1>Little Lemon Restaurant</h1>
-                <p>We are a family owned Mediterranean restaurant, focussed on traditional recipes served with a modern twist. This is a nice description of the recipes restaurant and the types of recipes food it serves. This is a description of the recipes restaurant and the types of food it serves. This is a description of the recipes restaurant and the types of food it serves. This is a description of the recipes restaurant and the types of food it serves. Thisrecipes is a description of the restaurant and the types of food it serves.</p>
+                <p>Little Lemon is a neighborhood gem that brings the vibrant spirit of the Mediterranean to Chicago with simple, honest food and heartfelt hospitality. With its cozy dining room, sun-washed walls, and the scent of fresh herbs in the air, the restaurant offers a relaxed yet intimate setting perfect for casual meals or special occasions. Whether you're stopping in for a quick bite or settling in for a long evening with friends, Little Lemon is all about making guests feel welcome and well-fed.</p>
             </div>
 
             <div className="info2">

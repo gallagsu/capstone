@@ -63,6 +63,12 @@ nav ul li a {
   text-decoration: none;
 }
 
+.nav-link.active {
+  color: var(--peach);
+  border-bottom: 2px solid var(--peach);
+  font-weight: bold;
+}
+
 nav ul li a:hover {
   text-decoration: solid;
   color: var(--peach);
@@ -116,7 +122,16 @@ h1 {
   margin-top: 30px;
 }
 
-.hero1 button {
+.infomain .bookingrow2>p {
+  margin: 40px 0;
+}
+
+.bookingdetails {
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.hero1 button, .menupagebutton {
    margin-top: 40px;
 }
 
@@ -136,7 +151,7 @@ h1 {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
-button, input[type="submit"] {
+button {
   background-color: var(--yellow);
   color: var(--green);
   border-radius: 12px;
@@ -148,15 +163,11 @@ button, input[type="submit"] {
   transition: background-color 0.3s ease, opacity 0.3s ease;
 }
 
-button:hover:not(:disabled),
-input[type="submit"]:hover:not(:disabled) {
-  background-color: #ffcc00; /* or a darker shade of var(--yellow) */
+button:hover:not(:disabled) {
+  background-color: #cea70b; /* or a darker shade of var(--yellow) */
 }
 
-button:disabled,
-input[type="submit"]:disabled,
-button.disabled,
-input[type="submit"].disabled {
+button:disabled {
   background-color: #ddd;
   color: #999;
   cursor: not-allowed;
@@ -238,14 +249,16 @@ input[type="submit"].disabled {
   grid-column: span 1;
   width: 100%;            /* Full width of the grid column */
   object-fit: cover;      /* Crop excess without distortion */
+  border-radius: 8px;
 }
 
-.tname {
-
+.socialimage {
+  width: 32px;
+  margin-right: 20px;
 }
 
-.tstars {
-
+.socialimage:hover {
+  border: 1px solid var(--lightpeach);
 }
 
 .treview {
@@ -313,6 +326,11 @@ footer {
   list-style: none;
 }
 
+.footercolumn li:hover {
+  list-style: none;
+  font-weight: 600;
+}
+
 .bookingmain {
   grid-area: main;
   display: grid;
@@ -346,7 +364,16 @@ input, select {
   border-width: 2px;
   padding: 9px;
   margin-bottom: 20px;
+  min-width: 300px;
 }
+
+input:focus, select:focus {
+  border: 2px solid var(--highlight-color);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--lightpeach);
+  transition: 0.2s ease;
+}
+
 
 .openField:hover {
   cursor: pointer;
@@ -362,6 +389,29 @@ input, select {
 
 .formh1 {
   margin-bottom: 30px;
+}
+
+.loading {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0.5rem 0;
+  display: block;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 3px solid #ccc;
+  border-top: 3px solid var(--green); /* Or your highlight color */
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 2px 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 768px) {
@@ -413,4 +463,4 @@ input, select {
     grid-template-columns: 1fr;
     padding: 40px 20px;
   }
-}
+}  

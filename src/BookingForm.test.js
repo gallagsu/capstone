@@ -3,16 +3,35 @@ import { MemoryRouter } from "react-router-dom";
 import BookingForm from "./BookingForm";
 import * as api from './api';
 
-const mockAvailableTimes = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
-const mockFormData = {
-    date: '2025-04-15',
-    time: '17:00',
-    guests: 2,
-    occasion: 'Birthday',
+let mockAvailableTimes;
+let mockFormData;
+let mockSetFormData;
+let mockDispatch;
+let tomorrow;
+
+const getFutureDate = (daysAhead = 0) => {
+    const d = new Date();
+    d.setDate(d.getDate() + daysAhead);
+    return d.toISOString().split('T')[0];
 };
 
-const mockSetFormData = jest.fn();
-const mockDispatch = jest.fn();
+beforeEach(() => {
+    tomorrow = getFutureDate(1);
+    mockAvailableTimes = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
+    mockFormData = {
+        date: tomorrow,
+        time: '21:00',
+        guests: 2,
+        occasion: 'Birthday',
+    };
+    mockSetFormData = jest.fn();
+    mockDispatch = jest.fn();
+    localStorage.clear();
+});
+
+afterEach(() => {
+    jest.restoreAllMocks();
+});
 
 test('Renders the BookingForm heading', () => {
     render(
@@ -22,13 +41,15 @@ test('Renders the BookingForm heading', () => {
                 formData={mockFormData}
                 dispatch={mockDispatch}
             />
-        </MemoryRouter>);
+        </MemoryRouter>
+    );
     const headingElement = screen.getByText("Book Now");
     expect(headingElement).toBeInTheDocument();
-})
+});
 
 test('Form can be submitted by the user', () => {
 
+    // Set up mock fetch response
     jest.spyOn(api, 'fetchAPI').mockReturnValue(['18:00', '19:30']);
 
     render(
@@ -43,8 +64,9 @@ test('Form can be submitted by the user', () => {
     );
 
     // Fill in the form fields
+    const newdate = getFutureDate(5);
     fireEvent.change(screen.getByLabelText(/date/i), {
-        target: { value: '2025-04-19' },
+        target: { value: newdate },
     });
 
     fireEvent.change(screen.getByLabelText(/time/i), {
@@ -69,25 +91,11 @@ test('Form can be submitted by the user', () => {
 
     // Assert that formData was updated through setFormData
     expect(mockSetFormData).toHaveBeenCalled(); // crude check
-
-    jest.restoreAllMocks();
 });
 
 test('submits the correct formData', () => {
-    const mockFormData = {
-        date: '2025-04-20',
-        time: '18:00',
-        guests: 4,
-        occasion: 'Anniversary',
-    };
-
-    const mockSetFormData = jest.fn();
-    const mockDispatch = jest.fn();
-
-    //Spy on the form submit functions and console log
     const logSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
     jest.spyOn(api, 'submitAPI').mockReturnValue(true);
-    
 
     render(
         <MemoryRouter>
@@ -106,21 +114,9 @@ test('submits the correct formData', () => {
 
     expect(logSpy).toHaveBeenCalledWith('✅ Reservation submitted!', mockFormData);
     expect(api.submitAPI).toHaveBeenCalledWith(mockFormData);
-
-    jest.restoreAllMocks();
 });
 
 test('Writes and reads to local storage correctly', () => {
-    const mockFormData = {
-        date: '2025-04-20',
-        time: '17:00',
-        guests: 4,
-        occasion: 'Anniversary',
-    };
-
-    const mockSetFormData = jest.fn();
-    const mockDispatch = jest.fn();
-
     render(
         <MemoryRouter>
             <BookingForm
@@ -138,6 +134,114 @@ test('Writes and reads to local storage correctly', () => {
 
     const saved = JSON.parse(localStorage.getItem('bookings'));
     expect(saved).toContainEqual(mockFormData);
+});
 
-    jest.restoreAllMocks();
+test('Error message appears if date in past chosen', () => {
+
+    render(
+        <MemoryRouter>
+            <BookingForm
+                formData={mockFormData}
+                setFormData={mockSetFormData}
+                availableTimes={['17:00', '18:00']}
+                dispatch={mockDispatch}
+            />
+        </MemoryRouter>
+    );
+
+    // Fill in the form fields
+    fireEvent.change(screen.getByLabelText(/date/i), {
+        target: { value: '2022-04-01' },
+    });
+
+    const errorElement = screen.getByText("Please select today or a future date.");
+    expect(errorElement).toBeInTheDocument();
+});
+
+test('Error message appears if date in past chosen', () => {
+
+    render(
+        <MemoryRouter>
+            <BookingForm
+                formData={mockFormData}
+                setFormData={mockSetFormData}
+                availableTimes={['17:00', '18:00']}
+                dispatch={mockDispatch}
+            />
+        </MemoryRouter>
+    );
+
+    // Fill in the form fields
+    fireEvent.change(screen.getByLabelText(/date/i), {
+        target: { value: '2022-04-01' },
+    });
+
+    const errorElement = screen.getByText("Please select today or a future date.");
+    expect(errorElement).toBeInTheDocument();
+});
+
+test('Error message appears if no time is chosen', () => {
+
+    render(
+        <MemoryRouter>
+            <BookingForm
+                formData={mockFormData}
+                setFormData={mockSetFormData}
+                availableTimes={['17:00', '18:00']}
+                dispatch={mockDispatch}
+            />
+        </MemoryRouter>
+    );
+
+    // Fill in the form fields
+    fireEvent.change(screen.getByLabelText(/time/i), {
+        target: { value: '' },
+    });
+
+    const errorElement = screen.getByText("Please select a time for your booking.");
+    expect(errorElement).toBeInTheDocument();
+});
+
+test('Error message appears if <1 guests selected', () => {
+
+    render(
+        <MemoryRouter>
+            <BookingForm
+                formData={mockFormData}
+                setFormData={mockSetFormData}
+                availableTimes={['17:00', '18:00']}
+                dispatch={mockDispatch}
+            />
+        </MemoryRouter>
+    );
+
+    // Fill in the form fields
+    fireEvent.change(screen.getByLabelText(/guests/i), {
+        target: { value: '0' },
+    });
+
+    const errorElement = screen.getByText("Choose a table for 1-10 guests only.");
+    expect(errorElement).toBeInTheDocument();
+});
+
+test('Error message appears if >10 guests selected', () => {
+
+    render(
+        <MemoryRouter>
+            <BookingForm
+                formData={mockFormData}
+                setFormData={mockSetFormData}
+                availableTimes={['17:00', '18:00']}
+                dispatch={mockDispatch}
+            />
+        </MemoryRouter>
+    );
+
+    // Fill in the form fields
+    fireEvent.change(screen.getByLabelText(/guests/i), {
+        target: { value: '11' },
+    });
+
+    const errorElement = screen.getByText("Choose a table for 1-10 guests only.");
+    expect(errorElement).toBeInTheDocument();
 });
